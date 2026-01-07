@@ -1,0 +1,60 @@
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+using GorillaLocomotion;
+
+namespace GorillaTag.ModChecker
+{
+  public class ModCheckerMenu : MonoBehaviour
+  {
+    private PlayerScroller playerScroller;
+    private MenuUI menuUI;
+    private bool menuActive = false;
+
+    private void Start()
+    {
+      playerScroller = gameObject.AddComponent<PlayerScroller>();
+      menuUI = gameObject.AddComponent<MenuUI>();
+      
+      playerScroller.Initialize();
+      menuUI.Initialize(playerScroller);
+      menuUI.HideMenu();
+    }
+
+    private void Update()
+    {
+      if (Input.GetKeyDown(KeyCode.F1))
+      {
+        menuActive = !menuActive;
+        
+        if (menuActive)
+        {
+          menuUI.ShowMenu();
+        }
+        else
+        {
+          menuUI.HideMenu();
+        }
+      }
+
+      if (menuActive)
+      {
+        HandleKeyboardInput();
+        menuUI.UpdateDisplay();
+      }
+    }
+
+    private void HandleKeyboardInput()
+    {
+      if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+      {
+        playerScroller.ScrollLeft();
+      }
+
+      if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+      {
+        playerScroller.ScrollRight();
+      }
+    }
+  }
+}
